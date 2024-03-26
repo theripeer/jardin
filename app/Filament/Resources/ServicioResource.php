@@ -98,7 +98,8 @@ class ServicioResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->emptyStateDescription(__('No hay registros!'));
     }
 
     public static function getRelations(): array

@@ -13,6 +13,19 @@ return new class extends Migration
     {
         Schema::create('ordens', function (Blueprint $table) {
             $table->id();
+            $table->string('folio')->unique();
+            $table->string('direccion');
+            $table->string('fitosanitario');
+            $table->unsignedBigInteger('servicio_id');
+            $table->foreign('servicio_id')->references('id')->on('servicios');
+            $table->integer('plazos');
+            $table->unsignedBigInteger('cuadrilla_id');
+            $table->foreign('cuadrilla_id')->references('id')->on('cuadrillas');
+            $table->string('image1')->nullable();
+            $table->string('image2')->nullable();
+            $table->enum('estados', ['CREADA', 'EN PROCESO', 'RECHAZADA', 'REALIZADA'])->default('CREADA');
+            $table->enum('estpago', ['POR PAGAR', 'PAGADO'])->default('POR PAGAR');
+            $table->longText('observacion')->nullable();
             $table->timestamps();
         });
     }

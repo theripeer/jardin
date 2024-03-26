@@ -111,7 +111,8 @@ class EmpresaResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->emptyStateDescription(__('No hay Empresas para mostrar en este momento!'));
     }
 
     public static function getRelations(): array
