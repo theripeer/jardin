@@ -62,7 +62,11 @@ class OrdenResource extends Resource
                         ->extraAttributes(['pattern' => '[A-Za-z0-9]{6}-[A-Za-z0-9]{6}'])
                         ->hint(__('requerido: ABC123-XYZ789')),
                     TextInput::make('direccion'),
-                    TextInput::make('fitosanitario'),
+                    Forms\Components\Select::make('especie_id')
+                        ->relationship('especie', 'nombre')
+                        ->required()
+                        ->searchable(),
+                        //->columns(1),
                     Forms\Components\Select::make('servicio_id')
                         ->relationship('servicio', 'nombre')
                         ->required()
@@ -109,6 +113,9 @@ class OrdenResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('folio')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('especie.nombre')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')

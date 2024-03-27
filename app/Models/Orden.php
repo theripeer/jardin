@@ -14,7 +14,7 @@ class Orden extends Model
     protected $fillable = [
         'folio',
         'direccion',
-        'fitosanitario',
+        'especie_id',
         'servicio_id',
         'plazos',
         'cuadrilla_id',
@@ -33,6 +33,11 @@ class Orden extends Model
     public function cuadrilla(): BelongsTo
     {
         return $this->BelongsTo(Cuadrilla::class);
+    }
+
+    public function especie(): BelongsTo
+    {
+        return $this->BelongsTo(Especie::class);
     }
 
 

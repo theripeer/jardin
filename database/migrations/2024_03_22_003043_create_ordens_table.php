@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('folio')->unique();
             $table->string('direccion');
-            $table->string('fitosanitario');
+            $table->unsignedBigInteger('especie_id');
+            $table->foreign('especie_id')->references('id')->on('especies');
             $table->unsignedBigInteger('servicio_id');
             $table->foreign('servicio_id')->references('id')->on('servicios');
             $table->integer('plazos');
