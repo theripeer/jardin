@@ -39,6 +39,7 @@ class EmpresaResource extends Resource
                 Section::make('Formulario empresa')
                     ->schema([
                         TextInput::make('nombre')
+                                 ->autofocus()
                                  ->required()
                                  ->live(onBlur: true)
                                  ->afterStateUpdated(function(string $operation, $state,Forms\Set $set){

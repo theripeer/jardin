@@ -35,6 +35,7 @@ class EspecieResource extends Resource
                 Section::make('Formulario especie')
                 ->schema([
                     Forms\Components\TextInput::make('nombre')
+                        ->autofocus()
                         ->required()
                         ->live(onBlur: true)
                         ->afterStateUpdated(function(string $operation, $state,Forms\Set $set){
@@ -94,7 +95,7 @@ class EspecieResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
-            ->emptyStateDescription(__('No hay registros!'));
+            ->emptyStateDescription(__('No hay Especies que mostrar!'));
     }
 
     public static function getRelations(): array

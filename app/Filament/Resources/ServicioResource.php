@@ -6,6 +6,7 @@ use App\Filament\Resources\ServicioResource\Pages;
 use App\Filament\Resources\ServicioResource\RelationManagers;
 use App\Models\Servicio;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -24,12 +25,17 @@ class ServicioResource extends Resource
     protected static ?int $navigationSort = 2;
     protected static  ?string $navigationGroup = 'Administrar';
 
+    
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('empresa_id')
+                Section::make('Formulario Servicio')
+                ->schema([
+                    Forms\Components\Select::make('empresa_id')
                     ->relationship('empresa', 'nombre')
+                    ->autofocus()
                     ->required(),
                     Forms\Components\TextInput::make('nombre')
                     ->required()
@@ -41,21 +47,25 @@ class ServicioResource extends Resource
                         }
                         $set('slug', Str::slug($state));
                     }),
-                Forms\Components\TextInput::make('precio')
-                    ->required()
-                    ->numeric(),
-                    Forms\Components\TextInput::make('slug')
-                    ->disabled()
-                    ->dehydrated()
-                    ->required()
-                    ->unique(Servicio::class, 'slug', ignoreRecord: true),
-                Forms\Components\Toggle::make('is_visible')
-                    ->required(),
+                    Forms\Components\TextInput::make('precio')
+                        ->required()
+                        ->numeric(),
+                        Forms\Components\TextInput::make('slug')
+                        ->disabled()
+                        ->dehydrated()
+                        ->required()
+                        ->unique(Servicio::class, 'slug', ignoreRecord: true),
+                    Forms\Components\Toggle::make('is_visible')
+                        ->required(),
+
+                ])->columns(2)
+                
             ]);
     }
 
     public static function table(Table $table): Table
     {
+ 
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('empresa.nombre')
@@ -65,7 +75,8 @@ class ServicioResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('precio')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->money('CLP', locale: 'es'),
                 Tables\Columns\TextColumn::make('slug')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_visible')
@@ -99,7 +110,7 @@ class ServicioResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
-            ->emptyStateDescription(__('No hay registros!'));
+            ->emptyStateDescription(__('No hay Servicios registrados!'));
     }
 
     public static function getRelations(): array
