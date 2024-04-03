@@ -72,12 +72,23 @@ class OrdenResource extends Resource
                         ->required()
                         ->searchable(),
                         //->columns(1),
+                    TextInput::make('cant_servicios'),
+                    TextInput::make('dap'),
                     TextInput::make('plazos'),
+                    Forms\Components\Select::make('est_fitosanitario')
+                        ->label(__('Estado Fitosanitario'))
+                        ->options([
+                            'BUENO' => 'BUENO',
+                            'REGULAR' => 'REGULAR',
+                            'MALO' => 'MALO',
+                            'MUERTO' => 'MUERTO'
+                        ]),
                     Forms\Components\Select::make('cuadrilla_id')
                         ->relationship('cuadrilla', 'nombre')
                         ->required()
                         ->searchable(),
                         //->columns(1),
+                    /*
                     Forms\Components\FileUpload::make('image1')
                         ->label(__('Imagen 1'))
                         ->image()
@@ -89,17 +100,21 @@ class OrdenResource extends Resource
                         ->image()
                         ->maxSize(4096)
                         ->placeholder(__('Imagen de trabajo'))
-                        ->columnSpanFull(),
-                    /*Forms\Components\Select::make('estados')
-                        ->options(fn () => collect($estados)->map(fn ($label, $value) => [
-                            'value' => $value,
-                        ]))
-                        ->label(__('Estado')),
+                        ->columnSpanFull(),*/
+                    Forms\Components\Select::make('estados')
+                        ->label(__('Estado'))
+                        ->options([
+                            'CREADA' => 'CREADA',
+                            'EN PROCESO' => 'EN PROCESO',
+                            'RECHAZADA' => 'RECHAZADA',
+                            'REALIZADA' => 'REALIZADA'
+                        ]),
                     Forms\Components\Select::make('estpago')
-                        ->options(fn () => collect($pagos)->map(fn ($label, $value) => [
-                            'value' => $value,
-                        ]))
-                        ->label(__('Estado Pago')),*/
+                        ->label(__('Estado Pago'))
+                        ->options([
+                            'POR PAGAR' => 'POR PAGAR',
+                            'PAGADO' => 'PAGADO'
+                        ]),
                     MarkdownEditor::make('observacion')
                         ->columnSpan('full')
                         ->label(__('Comentarios')),
@@ -130,11 +145,21 @@ class OrdenResource extends Resource
                 Tables\Columns\TextColumn::make('estados')
                     ->sortable()
                     ->searchable()
-                    ->label(__('Estado')),
+                    ->label(__('Estado'))
+                    ->color(fn (string $state):string => match ($state){
+                        'CREADA' => 'info',
+                        'EN PROCESO' => 'warning',
+                        'RECHAZADA' => 'danger',
+                        'REALIZADA' => 'success'
+                    }),
                 Tables\Columns\TextColumn::make('estpago')
                     ->sortable()
                     ->searchable()
-                    ->label(__('Estado pago')),
+                    ->label(__('Estado pago'))
+                    ->color(fn (string $state):string => match ($state){
+                        'POR PAGAR' => 'warning',
+                        'PAGADO' => 'success'
+                    }),
                 Tables\Columns\TextColumn::make('cuadrilla.nombre')
                         ->sortable()
                         ->searchable(),
@@ -142,8 +167,22 @@ class OrdenResource extends Resource
             ->filters([
                 SelectFilter::make('cuadrilla_id')
                     ->relationship('cuadrilla', 'nombre')
-                    ->label(__('Cuadrillas'))
-                    
+                    ->label(__('Cuadrillas')),
+                SelectFilter::make('estados')
+                    ->label(__('Estado'))
+                    ->options([
+                        'CREADA' => 'CREADA',
+                        'EN PROCESO' => 'EN PROCESO',
+                        'RECHAZADA' => 'RECHAZADA',
+                        'REALIZADA' => 'REALIZADA'
+                    ]),
+                SelectFilter::make('estpago')
+                    ->label(__('Estado pago'))
+                    ->options([
+                        'POR PAGAR' => 'POR PAGAR',
+                        'PAGADO' => 'PAGADO'
+                    ])
+                  
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
@@ -172,8 +211,11 @@ class OrdenResource extends Resource
             
         ]);
     }*/
+    /*
     public static function infolist(Infolist $infolist): Infolist
-    {
+    {*/
+        
+        /*
         return $infolist
         ->schema([
             Card::make('Trabajo') // Use the base Card component
@@ -193,7 +235,8 @@ class OrdenResource extends Resource
                     ->label(__('Fitosanitario'))
             ])->columns(2)
         ]);
-    }
+        */
+    //}
 
     public static function getRelations(): array
     {

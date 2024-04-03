@@ -19,7 +19,10 @@ return new class extends Migration
             $table->foreign('especie_id')->references('id')->on('especies');
             $table->unsignedBigInteger('servicio_id');
             $table->foreign('servicio_id')->references('id')->on('servicios');
+            $table->integer('cant_servicios');
+            $table->decimal('dap', 8, 2); // 8 digitos en total, 2 decimales
             $table->integer('plazos');
+            $table->string('est_fitosanitario')->nullable();
             $table->unsignedBigInteger('cuadrilla_id');
             $table->foreign('cuadrilla_id')->references('id')->on('cuadrillas');
             $table->string('image1')->nullable();
